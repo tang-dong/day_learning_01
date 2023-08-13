@@ -10,6 +10,7 @@ public class OneArrayTest1 {
 
     public static void main(String[] args) {
         //5. 数组元素的默认初始化值
+        int[] arr = new int[4];
 
 
         //6. 数组的内存解析

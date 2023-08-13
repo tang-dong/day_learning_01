@@ -29,7 +29,10 @@ public class OneArrayTest {
 		System.out.println(price.length);
 
 		//4. 如何遍历数组
-
+		for (String str : foods)
+		{
+			System.out.println(str);
+		}
 
 	}
 
