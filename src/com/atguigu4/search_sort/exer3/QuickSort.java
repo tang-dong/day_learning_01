@@ -5,9 +5,6 @@ package com.atguigu4.search_sort.exer3;
  * 通过一趟排序将待排序记录分割成独立的两部分，其中一部分记录的关键字均比另一部分关键字小，
  * 则分别对这两部分继续进行排序，直到整个序列有序。
  *
- * @author 尚硅谷-宋红康
- * @create 13:18
- *
  */
 public class QuickSort {
 	public static void main(String[] args) {
@@ -34,22 +31,25 @@ public class QuickSort {
 			int base = data[start];
 			int low = start;
 			int high = end + 1;
+
 			while (true) {
-				while (low < end && data[++low] - base <= 0)
-					;
-				while (high > start && data[--high] - base >= 0)
-					;
+				//找出比base小的low 从前往后找
+			    while (low < end && data[++low] <= base);
+				//找出比base打的high  从后往前找
+				while (high > start && data[--high] >= base);
 				if (low < high) {
 					//交换data数组[low]与[high]位置的元素
 					swap(data, low, high);
-				} else {
-					break;
+				}else {
+				    break;
 				}
 			}
+
+
 			//交换data数组[start]与[high]位置的元素
 			swap(data, start, high);
 
-			//经过代码[start, high)部分的元素 比[high, end]都小
+			//经过代码[start, high)部分的元素 比[high, end]都要小
 
 			//通过递归调用，对data数组[start, high-1]部分的元素重复刚才的过程
 			subSort(data, start, high - 1);
