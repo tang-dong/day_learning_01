@@ -1,9 +1,5 @@
 package ddl.atguigu02.project.model;
 
-/**
- * @author 尚硅谷-宋红康
- * @create 17:27
- */
 public class CustomerView {
 	private CustomerList customers = new CustomerList(10);
 

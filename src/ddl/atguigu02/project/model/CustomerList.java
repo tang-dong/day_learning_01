@@ -1,9 +1,6 @@
 package ddl.atguigu02.project.model;
 
-/**
- * @author 尚硅谷-宋红康
- * @create 17:17
- */
+
 public class CustomerList {
     private Customer[] customers;
     private int total = 0;
@@ -11,14 +8,15 @@ public class CustomerList {
     public CustomerList(int totalCustomer) {
         customers = new Customer[totalCustomer];
     }
- 
+
+    //添加客户
     public boolean addCustomer(Customer customer) {
         if (total >= customers.length) return false;
         
         customers[total++] = customer;
         return true;
     }
-     
+    //修改客户
     public boolean replaceCustomer(int index, Customer cust) {
         if (index < 0 || index >= total) return false;
         
@@ -28,9 +26,9 @@ public class CustomerList {
 
     public boolean deleteCustomer(int index) {
         if (index < 0 || index >= total) return false;
-        
-        for (int i = index; i < total - 1; i++) {
-            customers[i] = customers[i + 1];
+
+        for (int i = index; i < total - 1; i++){
+            customers[i] = customers[i+1];
         }
         
         customers[--total] = null;

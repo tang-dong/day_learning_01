@@ -26,4 +26,8 @@ public class Customer {
     public void setAccount(Account account) {
         this.account = account;
     }
+
+    public Account getAccount() {
+        return account;
+    }
 }
