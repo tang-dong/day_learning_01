@@ -3,13 +3,11 @@ package ddl.atguigu05._super.interview;
 /**
  * 判断运行结果
  *
- * @author 尚硅谷-宋红康
- * @create 14:01
  */
 public class Interview01 {
 
     public static void main(String[] args) {
-        new A(new B());
+        new A(new B());  // B  A  AB
     }
 }
 
