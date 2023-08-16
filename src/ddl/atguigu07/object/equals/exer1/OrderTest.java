@@ -15,7 +15,7 @@ public class OrderTest {
         Order order4 = new Order(1002,new String("orderBB"));
         System.out.println(order3.equals(order4));
 
-        //
+
         String str1 = "AA";
         String str2 = "AA";
         System.out.println(str1 == str2);//true
