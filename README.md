@@ -159,3 +159,49 @@ public class FieldMethodTest {
 
 对于非字符串变量来说，如果没有对equals()进行重写的话，"==" 和 "equals"方法的作用是相同的，都是用来比较对象在堆内存中的首地址，即用来比较两个引用变量是否指向同一个对象。
 
+#### 面试题：final 、 finally 、 finalize 的区别
+final 可以用来修饰：类、方法、变量和参数，其中可以用来修饰“参数”这一项，容易被人遗忘，这是 final 的 4 种用法。
+##### final 用法说明
++ 当 final 修饰类时，此类不允许被继承，表示此类设计的很完美，不需要被修改和扩展。
++ 当 final 修饰方法时，此方法不允许任何从此类继承的类来重写此方法，表示此方法提供的功能已经满足当前要求，不需要进行扩展。
++ 当 final 修饰变量时，表示该变量一旦被初始化便不可以被修改。
++ 当 final 修饰参数时，表示此参数在整个方法内不允许被修改。
+
+finally 则是 Java 中保证重点代码一定要被执行的一种机制。
+我们可以使用 try-finally 或者 try-catch-finally 来进行类似关闭 JDBC 连接、保证释放锁等动作。
+##### finally 用法
+```java
+try {
+    // do something
+} finally {
+    // 一定会执行的代码
+}
+```
+有时候面试也会问：finally 是否一定会被执行？这是一个有诱导嫌疑的问题，正常情况下 finally 一定是会执行的，但有一个特殊情况 finally 也是不会执行的，特殊的实现代码和执行结果如下：
+```java
+public class FinallyExample {
+    public static void main(String[] args) {
+        try {
+            System.out.println("执行try代码. ");
+            System.exit(0);
+        }finally {
+            System.out.println("执行finally. ");
+        }
+    }
+}
+```
+
+finalize 是 Object 类中的一个基础方法，它的设计目的是保证对象在被垃圾收集前完成特定资源的回收，但在 JDK 9 中已经被标记为弃用的方法（deprecated）。
+
+在实际开发中不推荐使用 finalize 方法，它虽然被创造出来，但无法保证 finalize 方法一定会被执行，所以不要依赖它释放任何资源，因为它的执行极不“稳定”。在 JDK 9 中将它废弃，也很好的证明了此观点。
+finalize 除了执行“不稳定”之外，还有一定的性能问题。 ​
+
+因为 finalize 的执行是和垃圾收集关联在一起的，一旦实现了非空的 finalize 方法，就会导致相应对象回收呈现数量级上的变慢，有人专门做过 benchmark，大概是 40~50 倍的下降。 ​
+
+因为 finalize 被设计成在对象被垃圾收集前调用，这就意味着实现了 finalize 方法的对象是个“特殊公民”，JVM 要对它进行额外处理。finalize 本质上成为了快速回收的阻碍者，可能导致你的对象经过多个垃圾收集周期才能被回收。
+
+##### 总结
+>final、finally 和 finalize 从英文字面角度来看，看似很像，实则 3 者在 Java 中没任何关系。
+final 是用来修饰类、方法、变量和参数的关键字，被 final 修饰的对象不允许修改或替换其原始值或定义；
+finally 是 Java 中保证重点代码一定要被执行的一种机制；
+finalize 是 Object 类中的一个基础方法，它的设计目的是保证对象在被垃圾收集前完成特定资源的回收的，但其执行“不稳定”，且有一定的性能问题，已经在 JDK 9 中被设置为弃用的方法了。
