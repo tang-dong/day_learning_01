@@ -1,7 +1,7 @@
 package exc.atguigu06.project.model.domain;
 
 
-import com.atguigu06.project.model.service.Status;
+import exc.atguigu06.project.model.service.Status;
 
 public class Programmer extends Employee {
     private int memberId;

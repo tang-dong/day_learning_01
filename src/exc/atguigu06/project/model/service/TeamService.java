@@ -1,10 +1,10 @@
 package exc.atguigu06.project.model.service;
 
 
-import com.atguigu06.project.model.domain.Architect;
-import com.atguigu06.project.model.domain.Designer;
-import com.atguigu06.project.model.domain.Employee;
-import com.atguigu06.project.model.domain.Programmer;
+import exc.atguigu06.project.model.domain.Architect;
+import exc.atguigu06.project.model.domain.Designer;
+import exc.atguigu06.project.model.domain.Employee;
+import exc.atguigu06.project.model.domain.Programmer;
 
 public class TeamService {
     private static int counter = 1;//用于自动生成团队成员的memberId

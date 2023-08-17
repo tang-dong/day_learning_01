@@ -1,11 +1,11 @@
 package exc.atguigu06.project.model.view;
 
 
-import com.atguigu06.project.model.domain.Employee;
-import com.atguigu06.project.model.domain.Programmer;
-import com.atguigu06.project.model.service.NameListService;
-import com.atguigu06.project.model.service.TeamException;
-import com.atguigu06.project.model.service.TeamService;
+import exc.atguigu06.project.model.domain.Employee;
+import exc.atguigu06.project.model.domain.Programmer;
+import exc.atguigu06.project.model.service.NameListService;
+import exc.atguigu06.project.model.service.TeamException;
+import exc.atguigu06.project.model.service.TeamService;
 
 public class TeamView {
 	private NameListService listSvc = new NameListService();

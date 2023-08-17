@@ -1,10 +1,10 @@
 package exc.atguigu06.project.model.service;
 
 
-import com.atguigu06.project.model.domain.PC;
-import com.atguigu06.project.model.domain.*;
+import exc.atguigu06.project.model.domain.PC;
+import exc.atguigu06.project.model.domain.*;
 
-import static com.atguigu06.project.model.service.Data.*;
+import static exc.atguigu06.project.model.service.Data.*;
 public class NameListService {
 	private Employee[] employees;
 

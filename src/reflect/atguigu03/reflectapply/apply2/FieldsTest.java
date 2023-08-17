@@ -1,6 +1,6 @@
 package reflect.atguigu03.reflectapply.apply2;
 
-import com.atguigu03.reflectapply.data.Person;
+import reflect.atguigu03.reflectapply.data.Person;
 import org.junit.Test;
 
 import java.lang.reflect.Field;

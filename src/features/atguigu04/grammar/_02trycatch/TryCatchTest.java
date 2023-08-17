@@ -104,17 +104,17 @@ public class TryCatchTest {
 
 
     //jdk9中举例：
-    @Test
-    public void test05() {
-        InputStreamReader reader = new InputStreamReader(System.in);
-        OutputStreamWriter writer = new OutputStreamWriter(System.out);
-        try (reader; writer) {
-            //reader、writer是final的，不可再被赋值
-
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    @Test
+//    public void test05() {
+//        InputStreamReader reader = new InputStreamReader(System.in);
+//        OutputStreamWriter writer = new OutputStreamWriter(System.out);
+//        try (reader; writer) {
+//            //reader、writer是final的，不可再被赋值
+//
+//
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }
