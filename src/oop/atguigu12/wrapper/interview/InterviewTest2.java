@@ -3,8 +3,6 @@ package oop.atguigu12.wrapper.interview;
 /**
  * 判断如下程序的执行结果
  *
- * @author 尚硅谷-宋红康
- * @create 12:50
  */
 public class InterviewTest2 {
     public static void main(String[] args) {
@@ -20,11 +18,11 @@ public class InterviewTest2 {
         //题目3：
         Integer m = 1000;
         double n = 1000;
-        System.out.println(m == n);//
+        System.out.println(m == n);//true
 
         //题目4：
         Integer x = 1000;
         int y = 1000;
-        System.out.println(x == y);//
+        System.out.println(x == y);//true
     }
 }

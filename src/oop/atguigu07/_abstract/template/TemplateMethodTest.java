@@ -9,6 +9,7 @@ public class TemplateMethodTest {
 		BankTemplateMethod btm2 = new ManageMoney();
 		btm2.process();
 	}
+
 }
 abstract class BankTemplateMethod {
 	// 具体方法

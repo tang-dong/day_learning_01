@@ -23,10 +23,10 @@ public class Test02 {
     }
 
     public static void main(String[] args) {
-        System.out.println("x=" + x);
+        System.out.println("x=" + x);  // x = -1
         z--;
         method();
-        System.out.println("result:" + (z + y + ++z));
+        System.out.println("result:" + (z + y + ++z)); //3
     }
 
 

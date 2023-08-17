@@ -8,6 +8,6 @@ package oop.atguigu10._enum.apply;
  */
 public enum Status {
 
-
+    BUSY,FREE,VOCATION,DIMISSION;
 
 }

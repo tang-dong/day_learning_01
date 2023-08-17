@@ -1,11 +1,10 @@
 package oop.atguigu05.field.interview;
 
-/**
- * @author 尚硅谷-宋红康
- * @create 16:03
- */
+
 public class Test03 {
     public static void main(String[] args) {
+        //先调用 Base 中的非静态代码块，再调用Base构造函数，直接调用sub.method(100)方法，后面再调用Sub中的非静态代码块
+        //再调用Sub中的method方法
         Sub s = new Sub();
     }
 }

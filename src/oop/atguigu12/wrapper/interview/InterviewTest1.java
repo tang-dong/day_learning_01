@@ -12,11 +12,11 @@ public class InterviewTest1 {
 		//
 		Integer m = 1; //自动的装箱
 		Integer n = 1;
-		System.out.println(m == n);//
+		System.out.println(m == n);// true
 
 		Integer x = 128;
 		Integer y = 128;
-		System.out.println(x == y);//
+		System.out.println(x == y);// false
 
 	}
 

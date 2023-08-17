@@ -1,9 +1,5 @@
 package oop.atguigu05.field.interview;
 
-/**
- * @author 尚硅谷-宋红康
- * @create 16:03
- */
 class HelloA {
     public HelloA() {
         System.out.println("HelloA");
