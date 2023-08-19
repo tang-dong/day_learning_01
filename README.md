@@ -451,3 +451,153 @@ class Window extends Thread{
     }
 }
 ```
+#### 创建多线程的方式三：实现Callable
+```java
+//1.创建一个实现Callable的实现类
+class NumThread implements Callable {
+    //2.实现call方法，将此线程需要执行的操作声明在call()中
+    @Override
+    public Object call() throws Exception {
+        int sum = 0;
+        for (int i = 1; i <= 100; i++) {
+            if (i % 2 == 0) {
+                System.out.println(i);
+                sum += i;
+            }
+//            Thread.sleep(1000);
+        }
+        return sum;
+    }
+}
+
+
+public class CallableTest {
+    public static void main(String[] args) {
+        //3.创建Callable接口实现类的对象
+        NumThread numThread = new NumThread();
+
+        //4.将此Callable接口实现类的对象作为传递到FutureTask构造器中，创建FutureTask的对象
+        FutureTask futureTask = new FutureTask(numThread);
+
+        //5.将FutureTask的对象作为参数传递到Thread类的构造器中，创建Thread对象，并调用start()
+        Thread t1 = new Thread(futureTask);
+        t1.start();
+
+
+//      接收返回值
+        try {
+            //6.获取Callable中call方法的返回值
+            //get()返回值即为FutureTask构造器参数Callable实现类重写的call()的返回值。
+            Object sum = futureTask.get();
+            System.out.println("总和为：" + sum);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
+}
+```
+
+#### 创建并使用多线程的第四种方法：使用线程池
+```java
+class NumberThread implements Runnable{
+
+    @Override
+    public void run() {
+        for(int i = 0;i <= 100;i++){
+            if(i % 2 == 0){
+                System.out.println(Thread.currentThread().getName() + ": " + i);
+            }
+        }
+    }
+}
+
+class NumberThread1 implements Runnable{
+
+    @Override
+    public void run() {
+        for(int i = 0;i <= 100;i++){
+            if(i % 2 != 0){
+                System.out.println(Thread.currentThread().getName() + ": " + i);
+            }
+        }
+    }
+}
+
+public class ThreadPool {
+
+    public static void main(String[] args) {
+        //1. 提供指定线程数量的线程池
+        ExecutorService service = Executors.newFixedThreadPool(10);
+        ThreadPoolExecutor service1 = (ThreadPoolExecutor) service;
+//        //设置线程池的属性
+//        System.out.println(service.getClass());//ThreadPoolExecutor
+        service1.setMaximumPoolSize(50); //设置线程池中线程数的上限
+
+        //2.执行指定的线程的操作。需要提供实现Runnable接口或Callable接口实现类的对象
+        service.execute(new NumberThread());//适合适用于Runnable
+        service.execute(new NumberThread1());//适合适用于Runnable
+
+//        service.submit(Callable callable);//适合使用于Callable
+        //3.关闭连接池
+        service.shutdown();
+    }
+
+}
+```
+```text
+1. 三个类的对比:String、StringBuffer、StringBuilder
+> String:不可变的字符序列;底层使用char[] （jdk8及之前），底层使用byte[] （jdk9及之后）
+> StringBuffer:可变的字符序列;JDK1.0声明，线程安全的，效率低;底层使用char[] （jdk8及之前），底层使用byte[] （jdk9及之后）
+> StringBuilder:可变的字符序列;JDK5.0声明，线程不安全的,效率高;底层使用char[] （jdk8及之前），底层使用byte[] （jdk9及之后）
+
+2. StringBuffer/StringBuilder的可变性分析（源码分析）：
+回顾：
+String s1 = new String(); //char[] value = new char[0];
+String s2 = new String("abc");// char[] value = new char[]{'a','b','c'};
+
+针对于StringBuilder来说：
+内部的属性有：
+    char[] value; //存储字符序列
+    int count; //实际存储的字符的个数
+
+StringBuilder sBuffer1 = new StringBuilder();//char[] value = new char[16];
+StringBuilder sBuffer1 = new StringBuilder("abc"); //char[] value = new char[16 + "abc".length()];
+
+sBuffer1.append("ac");//value[0] = 'a'; value[1] = 'c';
+sBuffer1.append("b");//value[2] = 'b';
+
+...不断的添加，一旦count要超过value.length时，就需要扩容：默认扩容为原有容量的2倍+2。
+并将原有value数组中的元素复制到新的数组中。
+
+
+3. 源码启示：
+> 如果开发中需要频繁的针对于字符串进行增、删、改等操作，建议使用StringBuffer或StringBuilder替换String.
+  因为使用String效率低。
+> 如果开发中，不涉及到线程安全问题，建议使用StringBuilder替换StringBuffer。因为使用StringBuilder效率高
+> 如果开发中大体确定要操作的字符的个数，建议使用带int capacity参数的构造器。因为可以避免底层多次扩容操作，性能更高。
+
+
+4. StringBuffer和StringBuilder中的常用方法
+增：
+    append(xx)
+删：
+    delete(int start, int end)
+    deleteCharAt(int index)
+改：
+    replace(int start, int end, String str)
+    setCharAt(int index, char c)
+查：
+    charAt(int index)
+插：
+    insert(int index, xx)
+长度：
+    length()
+
+5. 对比三者的执行效率
+效率从高到低排列：
+StringBuilder > StringBuffer > String
+```
+

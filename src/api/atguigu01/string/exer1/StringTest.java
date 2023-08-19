@@ -3,7 +3,7 @@ package api.atguigu01.string.exer1;
 //考查：方法参数的值传递机制、String的不可变性
 public class StringTest {
 
-	String str = "good";
+	String str = "good"; //修改的不可变性
 	char[] ch = { 't', 'e', 's', 't' };
 
 	public void change(String str, char ch[]) {
@@ -14,7 +14,7 @@ public class StringTest {
 	public static void main(String[] args) {
 		StringTest ex = new StringTest();
 		ex.change(ex.str, ex.ch);
-		System.out.println(ex.str); //
-		System.out.println(ex.ch); //
+		System.out.println(ex.str); // good
+		System.out.println(ex.ch); // best
 	}
 }

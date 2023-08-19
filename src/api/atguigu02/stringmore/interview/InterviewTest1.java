@@ -11,12 +11,12 @@ public class InterviewTest1 {
 
         operate(a, b);
 
-        System.out.println(a + "," + b);//
+        System.out.println(a + "," + b);//AB,ABx
     }
 
     public static void operate(StringBuffer x, StringBuffer y) {
         x.append(y);
-        y = x;
+        y = x; //这个是直接将x的地址值赋值给了y
         y.append('x');
     }
 }

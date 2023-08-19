@@ -16,6 +16,6 @@ public class InterviewTest3 {
         String s = "bbbb";
         StringBuffer sb = new StringBuffer("bbbb");
         change(s,sb);
-        System.out.println(s+sb);//
+        System.out.println(s+sb);//bbbbaaaa
     }
 }
