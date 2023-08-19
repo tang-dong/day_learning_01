@@ -230,7 +230,7 @@ class Bank{
 }
 ```
 ```java
-//饿汉式
+//懒汉式
 class Bank{
     //1.类的构造器私有化
     private Bank() {
@@ -346,4 +346,108 @@ class Bank{
 ```
 
 ## 2023/08/18
-今天打算学习异常和线程以及常用的api
+今天打算学习异常和多线程以及常用的api
+### 异常
+```text
+开发中，如何选择异常处理的两种方式？(重要、经验之谈)
+- 如果程序代码中，涉及到资源的调用（流、数据库连接、网络连接等），则必须考虑使用try-catch-finally来处理，
+  保证不出现内存泄漏。
+- 如果父类被重写的方法没有throws异常类型，则子类重写的方法中如果出现异常，只能考虑使用try-catch-finally
+  进行处理，不能throws。
+- 开发中，方法a中依次调用了方法b,c,d等方法，方法b,c,d之间是递进关系。此时，如果方法b,c,d中有异常，
+  我们通常选择使用throws，而方法a中通常选择使用try-catch-finally。
+```
+### 多线程
+程序(program)：为完成特定任务，用某种语言编写的`一组指令的集合`。即指一段静态的代码。
+
+进程(process)：程序的一次执行过程，或是正在内存中运行的应用程序。程序是静态的，进程是动态的。
+进程作为操作系统调度和分配资源的最小单位。
+
+线程(thread)：进程可进一步细化为线程，是程序内部的一条执行路径。
+线程作为CPU调度和执行的最小单位
+
+线程创建的两种方式：
+```text
+1. 线程的创建方式一：
+步骤：
+① 创建一个继承于Thread类的子类
+② 重写Thread类的run() --->将此线程要执行的操作，声明在此方法体中
+③ 创建当前Thread的子类的对象
+④ 通过对象调用start(): 1.启动线程 2.调用当前线程的run()
+```
+
+```text
+2. 线程的创建方式二：实现Runnable接口
+步骤：
+① 创建一个实现Runnable接口的类
+② 实现接口中的run() -->将此线程要执行的操作，声明在此方法体中
+③ 创建当前实现类的对象
+④ 将此对象作为参数传递到Thread类的构造器中，创建Thread类的实例
+⑤ Thread类的实例调用start():1.启动线程 2.调用当前线程的run()
+```
+```text
+对比两种方式？
+共同点：① 启动线程，使用的都是Thread类中定义的start()
+② 创建的线程对象，都是Thread类或其子类的实例。
+
+不同点：一个是类的继承，一个是接口的实现。
+建议：建议使用实现Runnable接口的方式。
+Runnable方式的好处：
+① 实现的方式，避免的类的单继承的局限性
+② 更适合处理有共享数据的问题。
+③ 实现了代码和数据的分离。
+```
+今天感觉学习很没有状态，首先是起的比较晚，昨天晚上听小说听上头了，以至于今天中午才醒。醒来后到实验室才发现今天的任务完不成了，所以一味的赶进度赶进度，真的感觉心越浮躁越赶进度，就学的越慢，越学不进去。以后还是要早点睡，进度虽然重要，但也要保证质量，要真正的学进去了，而不是走马观花。那就既浪费了时间，又没有学到东西。得不尝试啊！得不尝试啊！
+
+## 2023/08/19
+### 线程安全 --- 使用线程的同步机制
+```java
+synchronized (SaleTicket.class) { // 结构：Class clz = SaleTicket.class，是唯一的。
+   if (ticket > 0 ) {
+
+      try {
+         Thread.sleep(10);
+      } catch (InterruptedException e) {
+         e.printStackTrace();
+      }
+
+      System.out.println(Thread.currentThread().getName() + "售票，票号为：" + ticket);
+      ticket--;
+   }
+}
+```
+#### lock
+```java
+class Window extends Thread{
+    static int ticket = 100;
+
+    //1.创建Lock的实例，需要确保多个线程共用同一个Lock实例!需要考虑将此对象声明为static final
+    private static final ReentrantLock lock = new ReentrantLock();
+
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                //2.执行lock()方法，锁定对共享资源的调用
+                lock.lock();
+                if (ticket > 0){
+
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    System.out.println(Thread.currentThread().getName() + "售票，票号为：" + ticket);
+                    ticket--;
+                }else {
+                    break;
+                }
+            } finally {
+                //3.unlock()的调用，释放对共享数据的锁定
+                lock.unlock();
+            }
+        }
+    }
+}
+```

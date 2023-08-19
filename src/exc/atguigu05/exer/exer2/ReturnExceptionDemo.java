@@ -8,8 +8,6 @@ package exc.atguigu05.exer.exer2;
  * 进入方法B
  * 调用B方法的finally
  *
- * @author shkstart
- * @create 0:57
  */
 public class ReturnExceptionDemo {
     static void methodA() throws Exception{

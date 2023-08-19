@@ -25,38 +25,53 @@ public class TeamService {
     }
 
     public void addMember(Employee e) throws TeamException {
-        if (total >= MAX_MEMBER)
+        //判断人数是否满了
+        if (total >= MAX_MEMBER){
             throw new TeamException("成员已满，无法添加");
-        if (!(e instanceof Programmer))
+        }
+        //在判断是否是开发人员
+        if (!(e instanceof Programmer)){
             throw new TeamException("该成员不是开发人员，无法添加");
-
-        Programmer p = (Programmer)e;
-        switch (p.getStatus()) {
-            case BUSY    :throw new TeamException("该员工已是某团队成员");
-            case VOCATION:throw new TeamException("该员正在休假，无法添加");
         }
 
-        if (isExist(p))
-            throw new TeamException("该员工已在本团队中");
+        //由于 Designer 的父类是 Programmer，Architect 的父类是 Designer
+        //所以选择定义最基础的
+        Programmer p = (Programmer) e;
+        switch (p.getStatus()) {
+            case BUSY:throw new TeamException("该员工已是某团队成员");
+            case VOCATION:throw new TeamException("该员工正在休假，无法添加");
+        }
 
-        int numOfArch = 0, numOfDsgn = 0, numOfPrg = 0;
-        for (int i = 0; i < total; i++) {
+        if (isExist(p)){
+            throw new TeamException("该员工已在本团队中");
+        }
+
+        int numOfArch = 0,numOfDsgn = 0, numOfPrg = 0;
+        for (int i = 0; i < total; i++){
             if (team[i] instanceof Architect) numOfArch++;
             else if (team[i] instanceof Designer) numOfDsgn++;
-            else if (team[i] instanceof Programmer) numOfPrg++;
+            else if (team[i] instanceof Programmer) {
+                numOfPrg++;
+            }
         }
 
-        if (p instanceof Architect) {
+        if (p instanceof Architect){
             if (numOfArch >= 1) throw new TeamException("团队中至多只能有一名架构师");
-        } else if (p instanceof Designer) {
-            if (numOfDsgn >= 2) throw new TeamException("团队中至多只能有两名设计师");
-        } else if (p instanceof Programmer) {
-            if (numOfPrg >= 3) throw new TeamException("团队中至多只能有三名程序员");
+        }else if (p instanceof Designer) {
+            if (numOfDsgn >= 2) {
+                throw new TeamException("团队中至多只能有两名设计师");
+            }
+        }else if (p instanceof Programmer) {
+            if (numOfPrg >= 3) {
+                throw new TeamException("团队中至多只能有三名程序员");
+            }
         }
-        //添加到数组
+
+        //添加到数组中
         p.setStatus(Status.BUSY);
         p.setMemberId(counter++);
         team[total++] = p;
+
     }
 
     private boolean isExist(Programmer p) {

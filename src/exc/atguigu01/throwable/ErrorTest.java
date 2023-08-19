@@ -7,7 +7,11 @@ package exc.atguigu01.throwable;
 public class ErrorTest {
     public static void main(String[] args) {
 
+        //栈内存溢出的错误StackOverflowError
+        //main(args); //StackOverflowError
 
+        //OutOfMemoryError: Java heap space
+        //byte[] arr = new byte[1024 * 1024 * 100]; //100mb
 
     }
 }
