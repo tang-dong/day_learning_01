@@ -601,3 +601,36 @@ sBuffer1.append("b");//value[2] = 'b';
 StringBuilder > StringBuffer > String
 ```
 
+## 2023/08/20
+今天学习了Java中一些集合框架，ArrayList、Vector、LinkList等
+
+**ArrayList、Vector的区别？ ArrayList、LinkedList的区别？**
+```text
+ArrayList和Vector是Java集合框架中的两个类，它们都实现了List接口，但在一些方面有一些区别。
+
+ArrayList和Vector的区别：
+
+线程安全性：ArrayList是非线程安全的，而Vector是线程安全的。Vector的方法都是同步的，适用于多线程环境下的并发访问。而ArrayList没有同步机制，适用于单线程环境下的高效访问。
+
+扩容：ArrayList和Vector都是动态数组，可以根据需要自动扩容。但是，它们的扩容机制略有不同。ArrayList每次扩容时，将当前容量增加一半，而Vector则默认增加当前容量的一倍。这可能会导致Vector的扩容代价更高。
+
+性能：由于Vector是线程安全的，它在执行访问和修改操作时需要进行同步处理，这可能会带来一些额外的性能开销。相比之下，ArrayList在单线程环境下通常具有更好的性能。
+
+ArrayList和LinkedList的区别：
+
+底层数据结构：ArrayList是基于动态数组实现的，而LinkedList是基于双向链表实现的。这导致它们在内存分配、插入和删除操作上具有不同的性能特点。
+
+访问效率：ArrayList支持随机访问，可以通过索引快速访问元素。而LinkedList的访问效率较低，需要从头或尾部开始遍历链表找到指定位置的元素。
+
+插入和删除操作：在插入和删除元素方面，LinkedList相对更高效。在链表中插入或删除元素只需调整相邻节点的指针，时间复杂度为O(1)。而ArrayList在中间位置插入或删除元素时，需要将后续元素整体向后或向前移动，时间复杂度为O(n)。
+
+空间占用：由于LinkedList需要存储额外的指针来构建链表，相对于ArrayList来说，它会占用更多的内存空间。
+```
+
+```text
+面试题：区分Collection 和 Collections
+Collection：集合框架中的用于存储一个一个元素的接口，又分为List和Set等子接口。
+Collections：用于操作集合框架的一个工具类。此时的集合框架包括：Set、List、Map
+```
+
+
