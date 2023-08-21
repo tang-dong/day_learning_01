@@ -632,5 +632,7 @@ ArrayList和LinkedList的区别：
 Collection：集合框架中的用于存储一个一个元素的接口，又分为List和Set等子接口。
 Collections：用于操作集合框架的一个工具类。此时的集合框架包括：Set、List、Map
 ```
-
-
+###泛型方法
+![img.png](img.png)
+![img_1.png](img_1.png)
+![img_2.png](img_2.png)

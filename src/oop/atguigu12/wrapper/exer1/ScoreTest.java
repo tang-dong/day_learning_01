@@ -1,7 +1,5 @@
 package oop.atguigu12.wrapper.exer1;
 
-import sun.java2d.pipe.SpanIterator;
-
 import java.util.Scanner;
 import java.util.Vector;
 

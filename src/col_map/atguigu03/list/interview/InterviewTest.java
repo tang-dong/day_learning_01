@@ -17,10 +17,10 @@ public class InterviewTest {
         list.add(2);
         list.add(3);
         updateList(list);
-        System.out.println(list);//
+        System.out.println(list);//[1,2]
     }
 
     private static void updateList(List list) {
-//        list.remove(2);
+        list.remove(2);
     }
 }

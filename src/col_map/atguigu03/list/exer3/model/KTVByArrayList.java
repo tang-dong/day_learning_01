@@ -68,6 +68,14 @@ public class KTVByArrayList {
 
     // 执行将歌曲置顶
     private static void setTop() {
+
+        //思路：
+        //1.先获取想要置顶歌曲的名称  String musicName = sc.next();// 获取键盘输入内容
+        //2.要置顶歌曲所在的 index   int musicIndex = musicList.indexOf(musicName);// 查找指定歌曲位置
+        //3.判断歌曲是否在里面
+        //4.在歌曲列表里移除该歌曲  musicList.remove(musicName);// 移除指定的歌曲
+        //5.再在歌曲列表中的第一个位置插入该歌曲 musicList.add(0, musicName);
+
         System.out.print("请输入要置顶的歌曲名称：");
         String musicName = sc.next();// 获取键盘输入内容
         int musicIndex = musicList.indexOf(musicName);// 查找指定歌曲位置
@@ -84,6 +92,13 @@ public class KTVByArrayList {
 
     // 执行将歌曲置前一位
     private static void setBefore() {
+        //思路：
+        //1.先获取想要置顶歌曲的名称  String musicName = sc.next();// 获取键盘输入内容
+        //2.要置顶歌曲所在的 index   int musicIndex = musicList.indexOf(musicName);// 查找指定歌曲位置
+        //3.判断歌曲是否在里面
+        //4.在歌曲列表里移除该歌曲  musicList.remove(musicName);// 移除指定的歌曲
+        //5.再在歌曲列表中的前一个位置插入该歌曲 musicList.add(musicIndex - 1, musicName);// 将指定的歌曲放到前一位
+
         System.out.print("请输入要置前的歌曲名称：");
         String musicName = sc.next();// 获取键盘输入内容
         int musicIndex = musicList.indexOf(musicName);// 查找指定歌曲位置

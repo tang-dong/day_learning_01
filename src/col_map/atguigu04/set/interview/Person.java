@@ -17,6 +17,7 @@ public class Person {
 
     @Override
     public boolean equals(Object o) {
+        System.out.println("Person equals()....");
         if (this == o) return true;
         if (!(o instanceof Person)) return false;
 

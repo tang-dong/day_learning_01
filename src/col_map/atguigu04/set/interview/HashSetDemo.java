@@ -2,10 +2,6 @@ package col_map.atguigu04.set.interview;
 
 import java.util.HashSet;
 
-/**
- * @author shkstart
- * @create 15:35
- */
 public class HashSetDemo {
     public static void main(String[] args) {
         HashSet set = new HashSet();
