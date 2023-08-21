@@ -1,18 +1,24 @@
 
 1. 基础IO流的框架
-
+抽象基类              4个节点流 (也称为文件流)            4个缓冲流（处理流的一种）
+InputStream         FileInputStream                 BufferedInputStream
+OutputStream        FileOutputStream                BufferedOutputStream
+Reader              FileReader                      BufferedReader
+Writer              FileWriter                      BufferedWriter
 
 
 2. 缓冲流的作用：
-
+提升文件读写的效率。
 
 3.
 4个缓冲流                   使用的方法
 处理非文本文件的字节流：
-
+BufferedInputStream        read(byte[] buffer)
+BufferedOutputStream       write(byte[] buffer,0,len) 、flush()
 
 处理文本文件的字符流：
-
+BufferedReader            read(char[] cBuffer) / String readLine()
+BufferedWriter            write(char[] cBuffer,0,len) / write(String )  、flush()
 
 3. 实现的步骤
 

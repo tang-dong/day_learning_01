@@ -29,7 +29,7 @@ public class MoreExer {
     }
     @Test
     public void testGetDirectorySize(){
-        File dir = new File("D:\\code\\workspace_teach");
+        File dir = new File("D:\\JavaStudyFast\\day_learning_01\\playgirl.jpg");
 
         System.out.println("总文件大小为：" + getDirectorySize(dir) + "字节");
 
