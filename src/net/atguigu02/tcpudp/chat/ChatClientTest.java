@@ -9,9 +9,6 @@ import java.util.Scanner;
 
 /**
  * 案例：聊天室的实现 （客户端）
- *
- * @author 尚硅谷-宋红康
- * @create 16:42
  */
 public class ChatClientTest {
 	public static void main(String[] args)throws Exception {

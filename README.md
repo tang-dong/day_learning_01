@@ -652,10 +652,258 @@ Collections：用于操作集合框架的一个工具类。此时的集合框架
 > 简而言之，字节是给计算机看的，字符是给人看的
 
 
-## 2023/08/22
+## 2023/08/22 - 23
 没想到在Java基础这儿拖了这么久，才发现自己的基础是这么的不扎实，好多东西都没有印象了，而且内容还比较杂且多，一时之间都感觉头都大了。今天终于给搞定了！
 ### 网络编程
+#### 客户端
+```java
+public class ChatClientTest {
+	public static void main(String[] args)throws Exception {
+		//1、连接服务器
+		Socket socket = new Socket("127.0.0.1",8989);
+		
+		//2、开启两个线程
+		//(1)一个线程负责看别人聊，即接收服务器转发的消息
+		Receive receive = new Receive(socket);
+		receive.start();
+		
+		//(2)一个线程负责发送自己的话
+		Send send = new Send(socket);
+		send.start();
+		
+		send.join();//等我发送线程结束了，才结束整个程序
+		
+		socket.close();
+	}
+}
+class Send extends Thread{
+	private Socket socket;
+	
+	public Send(Socket socket) {
+		super();
+		this.socket = socket;
+	}
 
+	public void run(){
+		try {
+			Scanner input = new Scanner(System.in);
+
+			OutputStream outputStream = socket.getOutputStream();
+			//按行打印
+			PrintStream ps = new PrintStream(outputStream);
+			
+			//从键盘不断的输入自己的话，给服务器发送，由服务器给其他人转发
+			while(true){
+				System.out.print("自己的话：");
+				String str = input.nextLine(); //阻塞式的方法
+				if("bye".equals(str)){
+					break;
+				}
+				ps.println(str);
+			}
+			
+			input.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+}
+class Receive extends Thread{
+	private Socket socket;
+	
+	public Receive(Socket socket) {
+		super();
+		this.socket = socket;
+	}
+	
+	public void run(){
+		try {
+			InputStream inputStream = socket.getInputStream();
+			Scanner input = new Scanner(inputStream);
+			
+			while(input.hasNextLine()){
+				String line = input.nextLine();
+				System.out.println(line);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+}
+```
+#### 服务端
+```java
+public class ChatServerTest {
+	//这个集合用来存储所有在线的客户端
+	static ArrayList<Socket> online = new  ArrayList<Socket>();
+	
+	public static void main(String[] args)throws Exception {
+		//1、启动服务器，绑定端口号
+		ServerSocket server = new ServerSocket(8989);
+		
+		//2、接收n多的客户端同时连接
+		while(true){
+			Socket socket = server.accept();
+			
+			online.add(socket);//把新连接的客户端添加到online列表中
+			
+			MessageHandler mh = new MessageHandler(socket);
+			mh.start();//
+		}
+	}
+	
+	static class MessageHandler extends Thread{
+		private Socket socket;
+		private String ip;
+		
+		public MessageHandler(Socket socket) {
+			super();
+			this.socket = socket;
+		}
+
+		public void run(){
+			try {
+				ip = socket.getInetAddress().getHostAddress();
+				
+				//插入：给其他客户端转发“我上线了”
+				sendToOther(ip+"上线了");
+				
+				//(1)接收该客户端的发送的消息
+				InputStream input = socket.getInputStream();
+				InputStreamReader reader = new InputStreamReader(input);
+				BufferedReader br = new BufferedReader(reader);
+				
+				String str;
+				while((str = br.readLine())!=null){
+					//(2)给其他在线客户端转发
+					sendToOther(ip+":"+str);
+				}
+				
+				sendToOther(ip+"下线了");
+			} catch (IOException e) {
+				try {
+					sendToOther(ip+"掉线了");
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}finally{
+				//从在线人员中移除我
+				online.remove(socket);
+			}
+		}
+		
+		//封装一个方法：给其他客户端转发xxx消息
+		public void sendToOther(String message) throws IOException{
+			//遍历所有的在线客户端，一一转发
+			for (Socket on : online) {
+				OutputStream every = on.getOutputStream();
+				//为什么用PrintStream？目的用它的println方法，按行打印
+				PrintStream ps = new PrintStream(every);
+				
+				ps.println(message);
+			}
+		}
+	}
+}
+
+```
 
 ### 反射
+```text
+1. （掌握）反射的应用1：创建运行时类的对象
+1.1 如何实现？
+通过Class的实例调用newInstance()方法即可。
 
+1.2 要想创建对象成功，需要满足：
+条件1：要求运行时类中必须提供一个空参的构造器
+条件2：要求提供的空参的构造器的权限要足够。
+
+1.3 回忆：JavaBean中要求给当前类提供一个公共的空参的构造器。有什么用？
+> 场景1：子类对象在实例化时，子类的构造器的首行默认调用父类空参的构造器。
+> 场景2：在反射中，经常用来创建运行时类的对象。那么我们要求各个运行时类都提供一个空参的构造器，便于我们编写通用的
+       创建运行时类对象的代码。
+
+1.4 在jdk9中标识为过时，替换成什么结构
+通过Constructor类调用newInstance(...)
+
+2. 反射应用2：获取运行时类的内部结构
+2.1 （了解）获取运行时类的内部结构1：所有属性、所有方法、所有构造器
+
+2.2 （熟悉）获取运行时类的内部结构2：父类、接口们、包、带泛型的父类、父类的泛型等
+
+3. （掌握）反射的应用3：调用指定的结构：指定的属性、方法、构造器
+3.1 调用指定的属性（步骤）
+步骤1.通过Class实例调用getDeclaredField(String fieldName)，获取运行时类指定名的属性
+步骤2. setAccessible(true)：确保此属性是可以访问的
+步骤3. 通过Filed类的实例调用get(Object obj) （获取的操作）
+                  或 set(Object obj,Object value) （设置的操作）进行操作。
+
+3.2 调用指定的方法（步骤）
+步骤1.通过Class的实例调用getDeclaredMethod(String methodName,Class ... args),获取指定的方法
+步骤2. setAccessible(true)：确保此方法是可访问的
+步骤3.通过Method实例调用invoke(Object obj,Object ... objs),即为对Method对应的方法的调用。
+     invoke()的返回值即为Method对应的方法的返回值
+     特别的：如果Method对应的方法的返回值类型为void，则invoke()返回值为null
+
+3.3 调用指定的构造器（步骤）
+步骤1.通过Class的实例调用getDeclaredConstructor(Class ... args)，获取指定参数类型的构造器
+步骤2.setAccessible(true)：确保此构造器是可以访问的
+步骤3.通过Constructor实例调用newInstance(Object ... objs),返回一个运行时类的实例。
+```
+
+```java
+public class OtherTest {
+
+    //（熟悉）获取运行时类的内部结构2：父类、接口们、包、带泛型的父类、父类的泛型等
+    //1. 获取运行时类的父类
+    @Test
+    public void test1() throws ClassNotFoundException{
+        Class clazz = Class.forName("reflect.atguigu03.reflectapply.data.Person");
+        Class superClass = clazz.getSuperclass();
+        System.out.println(superClass);
+    }
+    //2. 获取运行时类实现的接口
+    @Test
+    public void test2() throws ClassNotFoundException{
+        Class clazz = Class.forName("reflect.atguigu03.reflectapply.data.Person");
+
+        Class[] interfaces = clazz.getInterfaces();
+        for (Class c : interfaces){
+            System.out.println(c);
+        }
+    }
+    //3. 获取运行时类所在的包
+    @Test
+    public void test3() throws ClassNotFoundException{
+        Class clazz = Class.forName("reflect.atguigu03.reflectapply.data.Person");
+
+        Package pkg = clazz.getPackage();
+        System.out.println(pkg);
+
+    }
+    //4. 获取运行时类的带泛型的父类
+    @Test
+    public void test4() throws ClassNotFoundException{
+        Class clazz = Class.forName("reflect.atguigu03.reflectapply.data.Person");
+        Type subclass = clazz.getGenericSuperclass();
+        System.out.println(subclass);
+    }
+
+    //5. 获取运行时类的父类的泛型 (难)
+    @Test
+    public void test5() throws ClassNotFoundException{
+        Class clazz = Class.forName("reflect.atguigu03.reflectapply.data.Person");
+        //获取带泛型的父类（Type是一个接口，class实现了次接口）
+        Type superclass = clazz.getGenericSuperclass();
+        //如果父类是带泛型的，则可以转为ParameterizedType
+        ParameterizedType paramType = (ParameterizedType) superclass;
+        //调用getActualTypeArguments()获取泛型的参数，结果是一个数组，因为可能有多个泛型参数
+        Type[] arguments = paramType.getActualTypeArguments();
+        //获取泛型参数的名称
+        System.out.println(((Class)arguments[0]).getName());
+    }
+
+
+}
+```

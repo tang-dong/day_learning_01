@@ -4,8 +4,11 @@ package reflect.atguigu04.other.annotation;
  * @author shkstart
  * @create 9:35
  */
+@Table(value="t_customer")
 public class Customer {
+    @Column(columnName = "cust_name",columnType = "varchar(15)")
     private String name;
+    @Column(columnName = "cust_age",columnType = "int")
     public int age;
 
     public Customer(){

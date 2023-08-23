@@ -8,8 +8,6 @@ import java.util.ArrayList;
 /**
  * 案例：聊天室的实现 （服务器端）
  *
- * @author 尚硅谷-宋红康
- * @create 16:45
  */
 public class ChatServerTest {
 	//这个集合用来存储所有在线的客户端
