@@ -24,7 +24,11 @@ public class LambdaTest1 {
         r1.run();
 
         System.out.println("***********************");
+        Runnable r2 = () -> {
+            System.out.println("我爱北京天安门");
+        };
 
+        r2.run();
 
 
     }
@@ -41,7 +45,11 @@ public class LambdaTest1 {
         con.accept("谎言和誓言的区别是什么？");
 
         System.out.println("*******************");
+        Consumer<String> con2 = (String s) -> {
+            System.out.println(s);
+        };
 
+        con2.accept("一个是说的人当真了，一个是听的人当真了。");
 
 
     }
@@ -56,7 +64,10 @@ public class LambdaTest1 {
         con1.accept("如果大学可以重来，你最想重来的事是啥？");
 
         System.out.println("*******************");
-
+        Consumer<String> con2 = (s) -> {
+            System.out.println(s);
+        };
+        con2.accept("好好的玩！");
 
     }
 
@@ -72,7 +83,10 @@ public class LambdaTest1 {
         con1.accept("世界那么大，我想去看看");
 
         System.out.println("*******************");
-
+        Consumer<String> con2 = s -> {
+            System.out.println(s);
+        };
+        con2.accept("说走就走！");
 
 
 
@@ -94,7 +108,12 @@ public class LambdaTest1 {
         System.out.println(com1.compare(12,21));
 
         System.out.println("*****************************");
-
+        Comparator<Integer> com2 = (o1,o2) -> {
+            System.out.println(o1);
+            System.out.println(o2);
+            return o1.compareTo(o2);
+        };
+        System.out.println(com2.compare(12,21));
 
 
     }
@@ -111,6 +130,8 @@ public class LambdaTest1 {
 
         System.out.println("*****************************");
 
+        Comparator<Integer> com2 = (o1,o2) -> o1.compareTo(o2);
+        System.out.println(com2.compare(12,16));
 
 
     }
@@ -123,6 +144,7 @@ public class LambdaTest1 {
         con1.accept("怀才就像怀孕，时间久了总会让人看出来");
 
         System.out.println("*****************************");
+
 
 
 

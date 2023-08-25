@@ -24,17 +24,15 @@ public class BlockTest {
         System.out.println(info);
     }
 
-//    @Test
-//    public void test2() {
-//        String info = """
-//                <html>
-//                  <body>
-//                      <p>Hello, 尚硅谷</p>
-//                  </body>
-//                </html>
-//                """;
-//        System.out.println(info);
-//    }
+    @Test
+    public void test2() {
+        String info = "<html>\n" +
+                      "  <body>\n" +
+                      "      <p>Hello, 尚硅谷</p>\n" +
+                      "  </body>\n" +
+                      "</html>\n";
+        System.out.println(info);
+    }
 
 
 

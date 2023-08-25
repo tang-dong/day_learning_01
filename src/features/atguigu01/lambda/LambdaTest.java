@@ -8,7 +8,6 @@ import java.util.Comparator;
 /**
  * Lambda表达式的使用举例
  *
- * @author 尚硅谷-宋红康
  */
 public class LambdaTest {
 
@@ -25,8 +24,13 @@ public class LambdaTest {
 
         System.out.println("***********************");
         //Lambda表达式的写法
+        Runnable r2 = () -> {
+            System.out.println("我爱我的祖国");
+        };
+        r2.run();
 
     }
+
 
 
     @Test
@@ -44,11 +48,15 @@ public class LambdaTest {
 
         System.out.println("***********************");
         //Lambda表达式的写法
-
+        Comparator<Integer> com2 = (Integer o1, Integer o2) -> Integer.compare(o1, o2);
+        int compare2 = com2.compare(23,21);
+        System.out.println(compare2);
 
         System.out.println("***********************");
         //方法引用
-
+        Comparator<Integer> com3 = Integer :: compare;
+        int compare3 = com3.compare(23,21);
+        System.out.println(compare3);
 
     }
 
